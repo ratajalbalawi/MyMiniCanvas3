@@ -2,6 +2,9 @@ from unittest.mock import patch
 import pytest #type:ignore
 import main
 
+
+
+
 # Fixtures
 @pytest.fixture
 def arranged_assignment():
@@ -71,7 +74,7 @@ def test_import_students(mock_print, arranged_course, arranged_student, arranged
     assert len(arranged_course.student_list) == 1
     assert arranged_course.student_list[0].name == "Rataj Albalawi"
     mock_print.assert_called_with("Import error")
-    
+
 @patch("course.Course.generate_assignment_id", return_value=0)
 @patch("builtins.print")
 def test_create_an_assignment(mock_print, mock_generate_assignment_id, arranged_course):
@@ -95,7 +98,7 @@ def test_generate_assignment_id(arranged_course):
 
 @patch("course.CourseManager.generate_id", return_value=0)
 @patch("builtins.print")
-def test_create_a_course(mock_print, mock_generate_id, arranged_courseManager, arranged_teacher, arranged_student):
+def test_create_a_course(mock_print, mock_generate_id, arranged_courseManager, arranged_teacher, arranged_student, mocker):
     # Act:
     arranged_courseManager.create_a_course("COSC 381", "Winter", [arranged_teacher])
     arranged_courseManager.create_a_course("COSC 381", "Winter", [arranged_teacher, arranged_student])
@@ -124,7 +127,7 @@ def test_find_a_course(mock_print, arranged_courseManager, arranged_teacher):
 
     # Assert:
     assert arranged_courseManager.find_a_course(1) == arranged_courseManager.course_list[0]
-    assert arranged_courseManager.find_a_course(5) == None
+    assert arranged_courseManager.find_a_course(5) is None
     arranged_courseManager.find_a_course("hello")
     mock_print.assert_called_with("Course search error")
 
@@ -147,7 +150,7 @@ def test_create_a_user(mock_print, mock_generate_id, arranged_userManager):
 
     # Assert:
     assert len(arranged_userManager.user_list) == 1
-    assert arranged_userManager.user_list[0].name == "Gabe Karras"
+    assert arranged_userManager.user_list[0].name == "Rataj Albalawi"
     mock_print.assert_called_with("User creation error")
 
 @patch("builtins.print")
@@ -200,3 +203,4 @@ def test_import_students_main(mocker, arranged_course, arranged_student):
     mock_import_students.assert_called_with([arranged_student])
     mock_print.assert_has_calls([mocker.call(0), mocker.call(arranged_course.student_list)])
     assert main.import_students(1, [1]) == None
+
