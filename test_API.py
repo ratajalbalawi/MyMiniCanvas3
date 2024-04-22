@@ -1,7 +1,8 @@
 from fastapi.testclient import TestClient
 from unittest.mock import patch
+import pytest
 from main import app
-from main import usermanager
+from course import Course
 
 client = TestClient(app)
 
@@ -51,3 +52,7 @@ def test_import_students_API(mocker):
     assert(response2.status_code == 200)
     assert(response3.status_code == 200)
     mock_print.assert_called_with("Student id error")
+
+
+
+
